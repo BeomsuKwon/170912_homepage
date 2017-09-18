@@ -1,0 +1,13 @@
+body{
+    margin: auto;
+    width: 1000px;
+}
+textarea{
+    resize: none;
+}
+heading{
+    text-align: center;
+}
+pagination{
+    text-align: center;
+}
