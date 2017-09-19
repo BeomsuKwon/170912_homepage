@@ -21,26 +21,29 @@
         $table = $_POST['select']['table'];
         $post_id = isset($_POST['select']['post_id']) ? "AND post_id = '".$_POST['select']['post_id']."'" : '';
         $p_id = isset($_POST['select']['p_id']) ? $_POST['select']['p_id'] : "'0'";
-        $pageIndex = isset($_POST['select']['pageIndex']) ? $_POST['select']['pagIndex'] : '';
+        $pageIndex = isset($_POST['select']['pageIndex']) ? $_POST['select']['pageIndex'] - 1 : '';
         $perPage = isset($_POST['select']['perPage']) ? $_POST['select']['perPage'] : "20";
         $keyword = isset($_POST['select']['keyword']) ? $_POST['select']['keyword'] : "";
         $search = "";
-
-        switch($_POST['select']['keywordType']){
-            case "작성자":
-                $search .= " AND user_id LIKE '$keyword'";
-                break;
-            case "제목":
-                $search .= " AND title LIKE '%$keyword%'";
-                break;
-            case "내용":
-                $search .= " AND content LIKE '%$keyword%'";
-                break;
-            case "작성자+제목+내용":
-                $search .= " AND user_id LIKE '%keyword%' OR title LIKE '%$keyword%' OR content LIKE '%$keyword%'";
-                break;
+        $limit = isset($_POST['select']['limit']) ? " LIMIT ".$pageIndex * $perPage.", $perPage " : "";
+        if(!$_POST['select']['keyword'] == ""){
+            switch($_POST['select']['keywordType']){
+                case "작성자":
+                    $search .= " AND user_id LIKE '%$keyword%'";
+                    break;
+                case "제목":
+                    $search .= " AND title LIKE '%$keyword%'";
+                    break;
+                case "내용":
+                    $search .= " AND content LIKE '%$keyword%'";
+                    break;
+                case "작성자+제목+내용":
+                    $search .= " AND user_id LIKE '%keyword%' OR title LIKE '%$keyword%' OR content LIKE '%$keyword%'";
+                    break;
+                default:
+                    break;
+            }
         }
-        $limit = " LIMIT ".$pageIndex * $perPage.", $perPage ";
 
         $query = "SELECT * FROM $table WHERE p_id = $p_id $search $post_id $limit";
         
@@ -48,8 +51,8 @@
         $table = $_POST['delete']['table'];
         $post_id = $_POST['delete']['post_id'];
         $user_id = $_POST['delete']['user_id'];
-
-        $query = "DELETE FROM $table WHERE post_id = '$post_id' AND user_id = '$user_id'";
+        // AND user_id = '$user_id'
+        $query = "DELETE FROM $table WHERE post_id = '$post_id'";
     } else if(isset($_POST['update'])){
         $table = $_POST['update']['table'];
         $post_id = $_POST['update']['post_id'];

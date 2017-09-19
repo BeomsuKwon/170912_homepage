@@ -3,8 +3,11 @@ class WritePost {
     static get content(){return 'writePostContent'}
     static get submit(){return 'writePostSubmit'}
     static get button(){return 'writePostButton'}
+    constructor(){
+        this.render();
+    }
     render(){
-        $('nav').append(a=>{
+        $('.navbar-header').append(a=>{
             return(`
                 <button id="${WritePost.button}" type="button" class="btn btn-primary navbar-btn hide" data-toggle="modal" data-target="#writePostModal">
                     글 쓰기

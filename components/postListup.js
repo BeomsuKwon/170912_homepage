@@ -14,18 +14,20 @@ class Listup {
                     data: {
                         select:{
                             table: 'post',
-                            keyword:keyword,
-                            keywordType:keywordType,
-                            pageIndex: pagination.pageIndex,
-                            perPage: 20
+                            keyword:options.keyword,
+                            keywordType:options.keywordType,
+                            pageIndex: options.pageIndex,
+                            perPage: options.perPage,
+                            limit:true
                         }
                     },
                     method:'post',
                     success: function(data){
-                        console.log('load posts');
                         posts = JSON.parse(data);
                         if(posts != null){
                             returnVal = posts.map(post => {
+                                post.content = post.content.length > 10 ? post.content.slice(0,7)+'...' : post.content;
+                                post.title = post.title.length > 10 ? post.title.slice(0,7)+'...' : post.title;
                                 return (
                                     `<tr type="button" class="post" data-toggle="modal" data-target="#postDetail">
                                         <td id="post_id">${post.post_id}</td>
@@ -55,7 +57,6 @@ class Listup {
             $(this).removeClass('panel-footer');
         });
         $('.post').click(function(e){
-            console.log('load post detail');
             components.PostDetail.postDetail(e);
             let post = $(e.currentTarget);
             $.ajax({
@@ -67,10 +68,6 @@ class Listup {
                         post_id:$(post.find('#post_id')).text(),
                         hits: true
                     }
-                },
-                success: data=>{
-                    console.log('hits updated');
-                    
                 },
                 method: 'post',
             })

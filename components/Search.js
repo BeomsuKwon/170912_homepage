@@ -2,15 +2,17 @@ class Search {
     static get option(){return 'searchOption'}
     static get value(){return 'searchValue'}
     static get button(){return 'searchButton'}
-
+    
     constructor(){
         this.render();
+        options.keywordType = $(`#${Search.option}`).text();
+        options.keyword = $(`#${Search.value}`).val();
     }
     render(){
         $('.navbar-container').append(a=>{return(`
             <div id="search" class="input-group">
                 <span class="input-group-btn">
-                    <button type="button" id="${Search.option}" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">검색</button>
+                    <button type="button" id="${Search.option}" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">작성자</button>
                     <ul class="dropdown-menu">
                         <li><a>작성자</a></li>
                         <li><a>제목</a></li>
@@ -32,10 +34,10 @@ class Search {
         $(`#${Search.option}`).text(e.currentTarget.innerText);
     }
     submit(){
-        let keywordType = $(`#${Search.option}`).text();
-        let keyword = $(`#${Search.value}`).val();
+        options.keywordType = $(`#${Search.option}`).text();
+        options.keyword = $(`#${Search.value}`).val();
 
-        components.Listup.render(keyword, keywordType);
-        components.Listup.init(keyword, keywordType);
+        components.Listup.render(options.keyword, options.keywordType);
+        components.Listup.init(options.keyword, options.keywordType);
     }
 }

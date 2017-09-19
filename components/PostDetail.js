@@ -95,12 +95,15 @@ class PostDetail {
             data:{
                 delete:{
                     table:'post',
-                    post_id:post_id
+                    post_id:post_id,
+                    user_id:currentUser.user_id
                 }
             },
             method:'post',
             async: false
         });
+        components.Listup.render();
+        components.Listup.init();
     };
     modifyPost(){
         let post_id = $(`#${PostDetail.post_id}`).text();
@@ -121,5 +124,8 @@ class PostDetail {
             method:'post',
             async:false
         });
+        components.Listup.render();
+        components.Listup.init();
     };
+    
 }
