@@ -23,10 +23,27 @@
         $p_id = isset($_POST['select']['p_id']) ? $_POST['select']['p_id'] : "'0'";
         $pageIndex = isset($_POST['select']['pageIndex']) ? $_POST['select']['pagIndex'] : '';
         $perPage = isset($_POST['select']['perPage']) ? $_POST['select']['perPage'] : "20";
+        $keyword = isset($_POST['select']['keyword']) ? $_POST['select']['keyword'] : "";
+        $search = "";
 
+        switch($_POST['select']['keywordType']){
+            case "작성자":
+                $search .= " AND user_id LIKE '$keyword'";
+                break;
+            case "제목":
+                $search .= " AND title LIKE '%$keyword%'";
+                break;
+            case "내용":
+                $search .= " AND content LIKE '%$keyword%'";
+                break;
+            case "작성자+제목+내용":
+                $search .= " AND user_id LIKE '%keyword%' OR title LIKE '%$keyword%' OR content LIKE '%$keyword%'";
+                break;
+        }
         $limit = " LIMIT ".$pageIndex * $perPage.", $perPage ";
 
-        $query = "SELECT * FROM $table WHERE p_id = $p_id $post_id $limit";
+        $query = "SELECT * FROM $table WHERE p_id = $p_id $search $post_id $limit";
+        
     } else if(isset($_POST['delete'])){
         $table = $_POST['delete']['table'];
         $post_id = $_POST['delete']['post_id'];

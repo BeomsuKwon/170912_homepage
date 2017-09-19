@@ -1,9 +1,14 @@
 class Heading {
+    constructor(){
+        this.render();
+    }
     render(){
-        return(`
-        <div class="page-haeder">
-            <h1>게시판이양<small>신난당</small></h1>
-        </div>
-        `);
+        $('heading').append(a=>{
+            return(`
+                <div class="heading">
+                    <h1>게시판이당<small>신난당</small></h1>
+                </div>
+            `);
+        });
     }
 }

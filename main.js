@@ -3,6 +3,7 @@ var pagination = {
     pageIndex:0,
     searchCondition:null,
 };
+var components = {};
 
 requirejs.config({
     baseUrl: '.',
@@ -36,32 +37,13 @@ requirejs(
         'Search'
     ], function($){
     $(document).ready(function(){
-        let heading = new Heading();
-        let login = new Login();
-        let write = new WritePost();
-        let listup = new Listup();
-        let pagnation = new Pagination();
-        let postDetail = new PostDetail();
-        let search = new Search();
+        components.Heading = new Heading();
+        components.Login = new Login();
+        components.Write = new WritePost();
+        components.Listup = new Listup();
+        components.Pagnation = new Pagination();
+        components.PostDetail = new PostDetail();
+        components.Search = new Search();
 
-        $('heading').append(heading.render());
-        $('nav').append(write.render())
-        $('nav').append(login.render());
-        $('nav').append(search.render());
-        listup.init();
-        // $('pagination').append(pagnation.render());
-        $('body').append(postDetail.render());
-
-        $(`#${WritePost.submit}`).click(write.submit);
-        $(`#${Login.submit}`).click(login.login);
-        $(`#${Login.logoutButton}`).click(login.logout);
-        $(`#${PostDetail.delete}`).click(function(){
-            postDetail.deletePost();
-            listup.init();
-        });
-        $(`#${PostDetail.update}`).click(function(){
-            postDetail.modifyPost();
-            listup.init();
-        });
     });
 });

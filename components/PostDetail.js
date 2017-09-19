@@ -9,40 +9,49 @@ class PostDetail {
     static get modify(){return 'modifyPost'}
     static get delete(){return 'deletePost'}
     static get submit(){return 'modifySubmit'}
+
+    constructor(){
+        this.render();
+    }
     render(){
-        return(`
-        <div id="postDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="${PostDetail.title}">Title</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div >
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                글번호<span id="${PostDetail.post_id}" class="label label-default"></span>
-                                작성자<span id="${PostDetail.user_id}" class="label label-default"></span>
-                                작성일<span id="${PostDetail.date}" class="label label-default"></span>
-                                수정일<span id="${PostDetail.changeDate}" class="label label-default"></span>
-                                조회수<span id="${PostDetail.hits}" class="label label-default"></span>
+        $('body').append(a=>{
+            return(`
+                <div id="postDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="${PostDetail.title}">Title</h4>
                             </div>
-                            <div id="${PostDetail.content}" class="panel-body">
-                                Contents
+                            <div class="modal-body">
+                                <div >
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        글번호<span id="${PostDetail.post_id}" class="label label-default"></span>
+                                        작성자<span id="${PostDetail.user_id}" class="label label-default"></span>
+                                        작성일<span id="${PostDetail.date}" class="label label-default"></span>
+                                        수정일<span id="${PostDetail.changeDate}" class="label label-default"></span>
+                                        조회수<span id="${PostDetail.hits}" class="label label-default"></span>
+                                    </div>
+                                    <div id="${PostDetail.content}" class="panel-body">
+                                        Contents
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="${PostDetail.modify}" type="button" class="btn btn-primary hide">수정</button>
+                                <button id="${PostDetail.delete}" type="button" class="btn btn-danger hide" data-dismiss="modal">삭제</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="${PostDetail.modify}" type="button" class="btn btn-primary hide">수정</button>
-                        <button id="${PostDetail.delete}" type="button" class="btn btn-danger hide" data-dismiss="modal">삭제</button>
                     </div>
                 </div>
-            </div>
-        </div>`);
+            `);
+        });
+        $(`#${PostDetail.delete}`).click(this.deletePost);
+        $(`#${PostDetail.update}`).click(this.modifyPost);
     }
-    init(e){
+    postDetail(e){
         let post = $(e.currentTarget);
         $.ajax({
             url:'./model.php',
