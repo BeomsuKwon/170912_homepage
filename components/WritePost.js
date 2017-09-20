@@ -12,6 +12,10 @@ class WritePost {
                 <button id="${WritePost.button}" type="button" class="btn btn-primary navbar-btn hide" data-toggle="modal" data-target="#writePostModal">
                     글 쓰기
                 </button>
+            `);
+        });
+        $('body').append(a=>{
+            return(`
                 <div class="modal fade" id="writePostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -33,7 +37,7 @@ class WritePost {
                         </div>
                     </div>
                 </div>
-            `);
+            `)
         });
         $(`#${WritePost.submit}`).click(this.submit);
     }

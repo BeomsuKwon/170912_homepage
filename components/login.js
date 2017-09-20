@@ -90,6 +90,7 @@ class Login {
             },
             method: 'post',
             success: data=>{
+                currentUser = null;
                 $(`#${Login.logoutButton}`).addClass('hide');
                 $(`#${WritePost.button}`).addClass('hide');
                 $(`#${Login.loginButton}`).removeClass('hide');

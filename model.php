@@ -58,10 +58,14 @@
         $post_id = $_POST['update']['post_id'];
         $title = isset($_POST['update']['title']) ? " title = '".$_POST['update']['title']."'" : '';
         $content = isset($_POST['update']['content']) ? ", content = '".$_POST['update']['content']."'" : '';
+        $datetime = new DateTime();
+        $update_date = isset($_POST['update']['update']) ? 
+            " ,update_date = '".$datetime->format('Y-m-d H:i:s')."'" : '';
         $hits = isset($_POST['update']['hits']) ?
              " hits = (select * from (select hits+1 from post where post_id = ".$_POST['update']['post_id'].") as a) " : '';
-
-        $query = "UPDATE $table SET $title $content $hits"." WHERE post_id = $post_id";
+        
+        $query = "UPDATE $table SET $title $content $update_date $hits"." WHERE post_id = $post_id";
+        echo $query;
     }
     $result = $dbConn->query($query);
 

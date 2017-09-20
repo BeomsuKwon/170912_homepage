@@ -9,6 +9,7 @@ class PostDetail {
     static get modify(){return 'modifyPost'}
     static get delete(){return 'deletePost'}
     static get submit(){return 'modifySubmit'}
+    static get modal(){return 'postDetail'}
 
     constructor(){
         this.render();
@@ -16,7 +17,7 @@ class PostDetail {
     render(){
         $('body').append(a=>{
             return(`
-                <div id="postDetail" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div id="${PostDetail.modal}" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -37,6 +38,9 @@ class PostDetail {
                                     <div id="${PostDetail.content}" class="panel-body">
                                         Contents
                                     </div>
+                                    <div class="panel-footer">
+                                    
+                                    </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -48,8 +52,10 @@ class PostDetail {
                 </div>
             `);
         });
+        $(`#${PostDetail.delete}`).unbind('click');
+        $(`#${PostDetail.modify}`).unbind('click');
         $(`#${PostDetail.delete}`).click(this.deletePost);
-        $(`#${PostDetail.update}`).click(this.modifyPost);
+        $(`#${PostDetail.modify}`).click(this.modifyModalUp);
     }
     postDetail(e){
         let post = $(e.currentTarget);
@@ -75,12 +81,12 @@ class PostDetail {
                     $(`#${PostDetail.changeDate}`).text(changeDate);
                     $(`#${PostDetail.hits}`).text(data.hits);
 
-                    if(currentUser.user_id == data.user_id){
-                        $(`#${PostDetail.delete}`).removeClass('hide');
-                        $(`#${PostDetail.modify}`).removeClass('hide');
-                    } else {
+                    if(currentUser == null || currentUser.user_id != data.user_id){
                         $(`#${PostDetail.delete}`).addClass('hide');
                         $(`#${PostDetail.modify}`).addClass('hide');
+                    } else {
+                        $(`#${PostDetail.delete}`).removeClass('hide');
+                        $(`#${PostDetail.modify}`).removeClass('hide');
                     }
                 });
             }
@@ -105,27 +111,36 @@ class PostDetail {
         components.Listup.render();
         components.Listup.init();
     };
-    modifyPost(){
-        let post_id = $(`#${PostDetail.post_id}`).text();
-        let title = $(`#${PostDetail.title}`).text();
-        let content = $(`#${PostDetail.content}`).text();
-
+    modifyModalUp(){
         $.ajax({
             url:'./model.php',
             datatype:'json',
-            date:{
-                update:{
-                    table:'post',
-                    post_id:post_id,
-                    title:title,
-                    content:content
+            data:{
+                select:{
+                    table: 'post',
+                    post_id: $(`#${PostDetail.post_id}`).text(),
                 }
             },
             method:'post',
-            async:false
+            success:data=>{
+                let posts = JSON.parse(data);
+                posts.map(data => {
+                    let changeDate = data.update_date ? data.update_date : data.date;
+                    $(`#${ModifyPost.post_id}`).text(data.post_id);
+                    $(`#${ModifyPost.user_id}`).text(data.user_id);
+                    $(`#${ModifyPost.date}`).text(data.date);
+                    $(`#${ModifyPost.changeDate}`).text(changeDate);
+                    $(`#${ModifyPost.hits}`).text(data.hits);
+                });
+            }
         });
-        components.Listup.render();
-        components.Listup.init();
+        components.ModifyPost.init();
+        $(`#${PostDetail.modal}`).modal('hide');
+        $(`#${PostDetail.modal}`).on('hidden.bs.modal', function(){
+            components.ModifyPost.init();
+           $(`#${ModifyPost.modal}`).modal('show');
+           $(`#${PostDetail.modal}`).unbind('hidden.bs.modal');
+        });
     };
     
 }

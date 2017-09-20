@@ -2,6 +2,7 @@ var currentUser = {};
 var options = {
     pageIndex:1,
     perPage:20,
+    numOfPost:null,
     searchCondition:null,
     keyword:'',
     keywordType:''
@@ -19,8 +20,8 @@ requirejs.config({
         'writePost':'./components/writePost',
         'pagination':'./components/pagination',
         'postDetail':'./components/PostDetail',
+        'ModifyPost':'./components/modifyPost',
         'Search':'./components/Search',
-        // 'PageIndex':'./components/PageIndex'
     },
     shim:{
         'bootstrap':{
@@ -38,8 +39,8 @@ requirejs(
         'writePost',
         'pagination',
         'postDetail',
+        'ModifyPost',
         'Search',
-        // 'PageIndex'
     ], function($){
     $(document).ready(function(){
         components.Search = new Search();
@@ -48,7 +49,7 @@ requirejs(
         components.Write = new WritePost();
         components.Listup = new Listup();
         components.Pagination = new Pagination();
+        components.ModifyPost = new ModifyPost();
         components.PostDetail = new PostDetail();
-        // components.PageIndex = new PageIndex();
     });
 });
