@@ -2,6 +2,6 @@
 const DBSETTINGS = [
         'host'=>'localhost',
         'user'=>'root',
-        'password'=>'root',
+        'password'=>'autoset',
         'database'=>'board_2'
     ];

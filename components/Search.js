@@ -11,19 +11,19 @@ class Search {
     render(){
         $('.navbar-container').append(a=>{return(`
             <div id="search" class="input-group">
-                <span class="input-group-btn">
-                    <button type="button" id="${Search.option}" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">작성자</button>
+                <input id="${Search.value}"  type="text" class="form-control" placeholder="키워드를 입력해주세요"/>
+                <div class="input-group-btn">
+                    <button type="button" id="${Search.option}" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">카테고리</button>
                     <ul class="dropdown-menu">
                         <li><a>작성자</a></li>
                         <li><a>제목</a></li>
                         <li><a>내용</a></li>
                         <li><a>작성자+제목+내용</a></li>
-                </ul>
-                </span>
-                <input id="${Search.value}" type="text" class="form-control" />
+                    </ul>
                 </div>
-                <div>
-                <button id="${Search.button}" type="button" class="btn btn-default">Search</button>
+                <div class="input-group-btn">
+                    <button id="${Search.button}" type="button" class="btn btn-default">검색</button>
+                </div>
             </div>
             `);
         });

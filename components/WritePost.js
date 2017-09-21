@@ -55,7 +55,6 @@ class WritePost {
             },
             method: 'post',
             success: function(){
-                
             }
         })
         .done(function(){

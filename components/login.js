@@ -11,12 +11,16 @@ class Login {
     render(){
         $('.navbar-header').append(a=>{
             return(`
-                <button id="${Login.loginButton}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-                    로그인
-                </button>
-                <button id="${Login.logoutButton}" type="button" class="btn btn-primary hide">
-                    로그아웃
-                </button>
+                <div class="btn-group btn-block">
+                        <button id="${Login.loginButton}" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                            로그인
+                        </button>
+                </div>
+                <div class="btn-group btn-block">
+                        <button id="${Login.logoutButton}" type="button" class="btn btn-primary hide">
+                            로그아웃
+                        </button>
+                </div>
             `);
         });
         $('body').append(a=>{

@@ -10,6 +10,7 @@ class PostDetail {
     static get delete(){return 'deletePost'}
     static get submit(){return 'modifySubmit'}
     static get modal(){return 'postDetail'}
+    static get comment(){return 'commentSection'}
 
     constructor(){
         this.render();
@@ -38,8 +39,7 @@ class PostDetail {
                                     <div id="${PostDetail.content}" class="panel-body">
                                         Contents
                                     </div>
-                                    <div class="panel-footer">
-                                    
+                                    <div id="${PostDetail.comment}" class="panel-footer">
                                     </div>
                                 </div>
                             </div>
@@ -91,6 +91,7 @@ class PostDetail {
                 });
             }
         });
+        components.Comment.render();
     }
     deletePost(){
         let post_id = $(`#${PostDetail.post_id}`).text();
@@ -142,5 +143,4 @@ class PostDetail {
            $(`#${PostDetail.modal}`).unbind('hidden.bs.modal');
         });
     };
-    
 }

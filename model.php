@@ -5,28 +5,29 @@
     // ini_set("display_errors", 1);
 
     $dbConn = new mysqli(DBSETTINGS["host"], DBSETTINGS["user"], DBSETTINGS["password"], DBSETTINGS["database"]);
+    echo $dbConn->connect_error;
     $condition = null;
 
     if(isset($_POST['insert'])){
         $table = $_POST['insert']['table'];
-        $user = $_POST['insert']['user_id'];
+        $post_pid = isset($_POST['insert']['post_pid']) ? $_POST['insert']['post_pid'] : '0';
+        $user_id = $_POST['insert']['user_id'];
         $title = $_POST['insert']['title'];
         $content = $_POST['insert']['content'];
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
 
-        $query = "INSERT INTO $table(user_id, title, content, update_date, date) VALUES('$user', '$title', '$content', '$date')";
-
+        $query = "INSERT INTO $table(post_pid, user_id, title, content, date) VALUES($post_pid, '$user_id', '$title', '$content', '$date')";
     } else if(isset($_POST['select'])) {
         $table = $_POST['select']['table'];
         $post_id = isset($_POST['select']['post_id']) ? "AND post_id = '".$_POST['select']['post_id']."'" : '';
-        $p_id = isset($_POST['select']['p_id']) ? $_POST['select']['p_id'] : "'0'";
+        $post_pid = isset($_POST['select']['post_pid']) ? $_POST['select']['post_pid'] : "'0'";
         $pageIndex = isset($_POST['select']['pageIndex']) ? $_POST['select']['pageIndex'] - 1 : '';
         $perPage = isset($_POST['select']['perPage']) ? $_POST['select']['perPage'] : "20";
         $keyword = isset($_POST['select']['keyword']) ? $_POST['select']['keyword'] : "";
         $search = "";
         $limit = isset($_POST['select']['limit']) ? " LIMIT ".$pageIndex * $perPage.", $perPage " : "";
-        if(!$_POST['select']['keyword'] == ""){
+        if(isset($_POST['select']['keyword'])){
             switch($_POST['select']['keywordType']){
                 case "작성자":
                     $search .= " AND user_id LIKE '%$keyword%'";
@@ -45,8 +46,8 @@
             }
         }
 
-        $query = "SELECT * FROM $table WHERE p_id = $p_id $search $post_id $limit";
-        
+        $query = "SELECT * FROM $table WHERE post_pid = $post_pid $search $post_id $limit";
+        // echo $query."\n";
     } else if(isset($_POST['delete'])){
         $table = $_POST['delete']['table'];
         $post_id = $_POST['delete']['post_id'];
@@ -65,7 +66,6 @@
              " hits = (select * from (select hits+1 from post where post_id = ".$_POST['update']['post_id'].") as a) " : '';
         
         $query = "UPDATE $table SET $title $content $update_date $hits"." WHERE post_id = $post_id";
-        echo $query;
     }
     $result = $dbConn->query($query);
 
@@ -74,5 +74,7 @@
         $queryResult[] = $row;
     }
     echo json_encode($queryResult);
+
+    // echo $query;
 
     $dbConn->close();

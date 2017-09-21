@@ -12,16 +12,17 @@ var components = {};
 requirejs.config({
     baseUrl: '.',
     paths:{
-        'jquery':'jquery-1.12.4.min',
-        'bootstrap':'bootstrap.min',
-        'heading':'./components/heading',
-        'login':'./components/login',
-        'listup':'./components/postlistup',
-        'writePost':'./components/writePost',
-        'pagination':'./components/pagination',
-        'postDetail':'./components/PostDetail',
-        'ModifyPost':'./components/modifyPost',
-        'Search':'./components/Search',
+        'jquery':       './lib/jquery-1.12.4.min',
+        'bootstrap':    './lib/bootstrap.min',
+        'heading':      './components/heading',
+        'login':        './components/login',
+        'listup':       './components/postlistup',
+        'writePost':    './components/writePost',
+        'pagination':   './components/pagination',
+        'postDetail':   './components/PostDetail',
+        'ModifyPost':   './components/modifyPost',
+        'Search':       './components/Search',
+        'Comment':      './components/Comment'
     },
     shim:{
         'bootstrap':{
@@ -41,6 +42,7 @@ requirejs(
         'postDetail',
         'ModifyPost',
         'Search',
+        'Comment'
     ], function($){
     $(document).ready(function(){
         components.Search = new Search();
@@ -51,5 +53,6 @@ requirejs(
         components.Pagination = new Pagination();
         components.ModifyPost = new ModifyPost();
         components.PostDetail = new PostDetail();
+        components.Comment = new Comment();
     });
 });

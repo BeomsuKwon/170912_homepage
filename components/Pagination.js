@@ -27,7 +27,7 @@ class Pagination {
                 options.numOfPost = JSON.parse(data);
             }
         });
-        // .find('li.pageButton')
+        let string = '';
         $('pagination').empty().append(a=>{
             return(`
                 <nav id="pagination" aria-label="Page navigation">
@@ -37,7 +37,7 @@ class Pagination {
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                         </li>
-                        ${pages.map(a=>{return '<li class="pageButton"><a>'+a+'</a></li>'})}
+                        ${string += pages.map(a=>{return '<li class="pageButton"><a>'+a+'</a></li>'})}
                         <li>
                         <a id="next" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
