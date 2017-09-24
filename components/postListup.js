@@ -3,7 +3,7 @@ class Listup {
         this.render();
         this.init();
     }
-    render(keyword, keywordType){
+    render(){
         $('tbody').empty().append(function(){
             {
                 var posts = [];
@@ -46,10 +46,10 @@ class Listup {
                     async:false
                 });
                 return returnVal;
-            }(keyword, keywordType);
+            };
         });
     }
-    init(keyword, keywordType){
+    init(){
         $('.post').mouseenter(function(){
             $(this).addClass('panel-footer');
         });
@@ -57,7 +57,6 @@ class Listup {
             $(this).removeClass('panel-footer');
         });
         $('.post').click(function(e){
-            components.PostDetail.postDetail(e);
             let post = $(e.currentTarget);
             $.ajax({
                 url:'./model.php',
@@ -70,7 +69,11 @@ class Listup {
                     }
                 },
                 method: 'post',
-            })
+            }).done(function(){
+                $(`#${PostDetail.modal}`).on('shown.bs.modal', ()=>{
+                    components.PostDetail.postDetail(e);
+                });
+            }(e));
         });
     }
 }

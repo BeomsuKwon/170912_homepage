@@ -14,6 +14,8 @@
         $user_id = $_POST['insert']['user_id'];
         $title = $_POST['insert']['title'];
         $content = $_POST['insert']['content'];
+        $content = str_replace(' ', '&nbsp', $content);
+        $content = nl2br($content);
         $date = new DateTime();
         $date = $date->format('Y-m-d H:i:s');
 

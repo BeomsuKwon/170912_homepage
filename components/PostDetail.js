@@ -54,8 +54,8 @@ class PostDetail {
         });
         $(`#${PostDetail.delete}`).unbind('click');
         $(`#${PostDetail.modify}`).unbind('click');
-        $(`#${PostDetail.delete}`).click(this.deletePost);
-        $(`#${PostDetail.modify}`).click(this.modifyModalUp);
+        $(`#${PostDetail.delete}`).on('click', this.deletePost);
+        $(`#${PostDetail.modify}`).on('click', this.modifyModalUp);
     }
     postDetail(e){
         let post = $(e.currentTarget);
@@ -70,25 +70,30 @@ class PostDetail {
             },
             method:'post',
             success:data=>{
-                let posts = JSON.parse(data);
-                posts.map(data => {
-                    let changeDate = data.update_date ? data.update_date : data.date;
-                    $(`#${PostDetail.post_id}`).text(data.post_id);
-                    $(`#${PostDetail.user_id}`).text(data.user_id);
-                    $(`#${PostDetail.title}`).text(data.title);
-                    $(`#${PostDetail.content}`).text(data.content);
-                    $(`#${PostDetail.date}`).text(data.date);
-                    $(`#${PostDetail.changeDate}`).text(changeDate);
-                    $(`#${PostDetail.hits}`).text(data.hits);
-
-                    if(currentUser == null || currentUser.user_id != data.user_id){
-                        $(`#${PostDetail.delete}`).addClass('hide');
-                        $(`#${PostDetail.modify}`).addClass('hide');
-                    } else {
-                        $(`#${PostDetail.delete}`).removeClass('hide');
-                        $(`#${PostDetail.modify}`).removeClass('hide');
-                    }
-                });
+                $(`#${PostDetail.modal}`).on('shown.bs.modal', function(){
+                    let posts = JSON.parse(data);
+                    posts.map(data => {
+                        let changeDate = data.update_date ? data.update_date : data.date;
+                        $(`#${PostDetail.post_id}`).text(data.post_id);
+                        $(`#${PostDetail.user_id}`).text(data.user_id);
+                        $(`#${PostDetail.title}`).text(data.title);
+                        $(`#${PostDetail.content}`).html(data.content);
+                        $(`#${PostDetail.date}`).text(data.date);
+                        $(`#${PostDetail.changeDate}`).text(changeDate);
+                        $(`#${PostDetail.hits}`).text(data.hits);
+    
+                        if(currentUser == null || currentUser.user_id != data.user_id){
+                            $(`#${PostDetail.delete}`).addClass('hide');
+                            $(`#${PostDetail.modify}`).addClass('hide');
+                        } else {
+                            $(`#${PostDetail.delete}`).removeClass('hide');
+                            $(`#${PostDetail.modify}`).removeClass('hide');
+                        }
+                    });
+                    components.Listup.render();
+                    components.Listup.init();
+                }(data));
+                // 모달 띄운 뒤에 렌더링 하는 구문 작성하기!!!!
             }
         });
         components.Comment.render();

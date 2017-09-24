@@ -21,6 +21,7 @@ class Comment {
                 </div>
             `);
         });
+        $(`#${PostDetail.modal}`).unbind('shown.bs.modal');
         $(`#${PostDetail.modal}`).on('shown.bs.modal', ()=>{
             $.ajax({
                 url:'./model.php',

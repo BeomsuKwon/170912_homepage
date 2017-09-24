@@ -1,4 +1,6 @@
-var currentUser = {};
+var currentUser = {
+    user_id:'GUEST'
+};
 var options = {
     pageIndex:1,
     perPage:20,

@@ -1,4 +1,6 @@
 class Pagination {
+    static get length(){return 9}
+
     constructor(){
         this.render();
         this.init();
@@ -7,8 +9,12 @@ class Pagination {
     render(){
         let pages = [];
 
-        for(let i = 0; i < 5; i++){
-            pages[i] = parseInt(options.pageIndex / 5) * 5 + i;
+        for(let i = 0; i < Pagination.length; i++){
+            let val = options.pageIndex + i - parseInt(Pagination.length / 2);
+            if(options.pageIndex <= parseInt(Pagination.length / 2) + 1)
+                pages[i] = i + 1;
+            else
+                 pages[i] = val;
         }
         $.ajax({
             url:'model.php',
@@ -24,11 +30,20 @@ class Pagination {
                 }
             },
             success:data=>{
-                options.numOfPost = JSON.parse(data);
+                options.numOfPost = JSON.parse(data).length;
             }
+        }).done(()=>{
+            $('.pageButton').map((button, name)=>{
+                let index = parseInt($(name).text());
+                if((index - 1) * options.perPage > options.numOfPost){
+                    $(name).addClass("disabled");
+                }
+            });
+            $('.disabled').unbind('click');
         });
-        let string = '';
         $('pagination').empty().append(a=>{
+            let page = "";
+            pages.map(a=>{page += '<li class="pageButton"><a>'+a+'</a></li>'});
             return(`
                 <nav id="pagination" aria-label="Page navigation">
                     <ul class="pagination pagination-lg">
@@ -37,7 +52,7 @@ class Pagination {
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                         </li>
-                        ${string += pages.map(a=>{return '<li class="pageButton"><a>'+a+'</a></li>'})}
+                        ${page.replace(',','')}
                         <li>
                         <a id="next" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
@@ -47,7 +62,10 @@ class Pagination {
                 <nav>
             `);
         });
-        $('#pagination').find('li.pageButton').click(this.pageMove);
+        $('.pageButton').unbind('click');
+        $('#previous').unbind('click');
+        $('#next').unbind('click');
+        $('.pageButton').click(this.pageMove);
         $('#previous').click(this.prev);
         $('#next').click(this.next);
     }
@@ -59,7 +77,7 @@ class Pagination {
         });
     }
     pageMove(e){
-        options.pageIndex = $(e.currentTarget).text();
+        options.pageIndex = parseInt($(e.currentTarget).text());
 
         components.Listup.render();
         components.Listup.init();
@@ -67,16 +85,19 @@ class Pagination {
         components.Pagination.init();
     }
     prev(){
-        options.pageIndex = parseInt(options.pageIndex) - 5;
+        options.pageIndex = options.pageIndex - Pagination.length;
+        if(options.pageIndex - Pagination.length <= 0) options.pageIndex = 1;
+        components.Listup.render();
+        components.Listup.init();
         components.Pagination.render();
         components.Pagination.init();
     }
     next(){
-        options.pageIndex = parseInt(options.pageIndex) + 5;
+        if((options.pageIndex + Pagination.length - 1) * options.perPage > options.numOfPost){return ;}
+        options.pageIndex = options.pageIndex + Pagination.length;
+        components.Listup.render();
+        components.Listup.init();
         components.Pagination.render();
         components.Pagination.init();
-        // $.map($('.pageButton>a'), a=>{
-        //     $(a).text(parseInt($(a).text()) + 5);
-        // });
     }
 }
