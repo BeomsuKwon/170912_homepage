@@ -93,7 +93,6 @@ class PostDetail {
                     components.Listup.render();
                     components.Listup.init();
                 }(data));
-                // 모달 띄운 뒤에 렌더링 하는 구문 작성하기!!!!
             }
         });
         components.Comment.render();

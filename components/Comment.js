@@ -53,24 +53,9 @@ class Comment {
                     `);
                 }));
             });
-        })
-        // $(`#${PostDetail.comment}`).append(()=>{
-        //     return(`
-        //         <!-- 댓글 엘리먼트 --!>
-        //         <div class="media">
-        //             <!-- <div class="media-left media-top">1</div> -->
-        //             <div class="media-body">
-        //                 <h4 class="media-heading">Bob</h4>
-        //                 wow!!!
-        //             </div>
-        //         </div>
-        //     `)
-        // });
+        });
         $(`#${Comment.subtmi}`).unbind('click');
         $(`#${Comment.submit}`).on('click', this.submit);
-    }
-    init(){
-
     }
     submit(){
         $.ajax({

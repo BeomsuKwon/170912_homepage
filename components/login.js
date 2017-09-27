@@ -33,15 +33,9 @@ class Login {
                                 <h4 class="modal-title" id="myModalLabel">로그인</h4>
                             </div>
                             <div class="modal-body">
-                                <div style="max-width:300px">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">아이디</span>
-                                        <input id="${Login.idElemName}" type="text" class="form-control" placeholder="아이디" />
-                                    </div>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-addon">비밀번호</span>
-                                        <input id="${Login.pwElemName}" type="password" class="form-control" placeholder="비밀번호" />
-                                    </div>
+                                <div class="panel panel-default">
+                                    <input id="${Login.idElemName}" type="text" class="form-control" placeholder="아이디" />
+                                    <input id="${Login.pwElemName}" type="password" class="form-control" placeholder="비밀번호" />
                                 </div>
                             </div>
                             <div class="modal-footer">
